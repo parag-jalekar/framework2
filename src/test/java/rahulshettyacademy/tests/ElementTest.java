@@ -23,7 +23,7 @@ public class ElementTest {
 		
 		
 		driver.get("https://rahulshettyacademy.com/client");
-		//driver.manage().window().maximize();
+		driver.manage().window().maximize();
 		
 		//Login code
 		WebElement username= driver.findElement(By.id("userEmail"));
