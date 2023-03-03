@@ -5,10 +5,9 @@
     <classes>
       <class name="rahulshettyacademy.tests.StandAloneTest">
         <methods>
-          <include name="orderHistoryTest"/>
           <include name="launchApplication"/>
-          <include name="submitOrder"/>
           <include name="tearDown"/>
+          <include name="submitOrder" invocation-numbers="0 1"/>
         </methods>
       </class> <!-- rahulshettyacademy.tests.StandAloneTest -->
     </classes>

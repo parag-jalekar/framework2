@@ -1,12 +1,16 @@
 package rahulshetyacademy.TestComponents;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -22,9 +26,9 @@ public LandingPage landingPage;
 //this class contains all the common code related to tests
 //initializeDriver() reads driver name from properties file and apply here
 public WebDriver initializeDriver() throws IOException {
-	
-	//properties class
-	
+	//Selection of driver from .properties file
+	//properties class used by creating its object prop--> prop.load(fis) to get property file location.
+	//prop.getProperty("proertyName") _-> chose the browser
 	Properties prop = new Properties();
 	FileInputStream fis= new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\rahulshettyacademy\\resources\\GlobalData.properties");
 	prop.load(fis);
@@ -48,6 +52,16 @@ public WebDriver initializeDriver() throws IOException {
 	driver.manage().window().maximize();
 	return driver;
 	}
+
+//Screenshot method
+public String getScreenshot(String testcaseName) throws IOException {
+	TakesScreenshot ts =(TakesScreenshot)driver;	
+	File source=ts.getScreenshotAs(OutputType.FILE);
+	File file = new File(System.getProperty("user.dir")+"//reports//"+testcaseName+".png");
+	FileUtils.copyFile(source, file);
+	return System.getProperty("user.dir")+"//reports//"+ testcaseName+".png";
+	}
+
 @BeforeMethod(alwaysRun=true) //alwaysRun--> run for every group (else it will get skip) 
 	public LandingPage launchApplication() throws IOException {
 		driver=initializeDriver();
