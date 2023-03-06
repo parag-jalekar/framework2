@@ -18,10 +18,12 @@ import rahulshettyacademy.resources.ExtentReporterNG;
 public class Listeners extends BaseTest implements ITestListener { //extending to BaseTest because it contains Screenshot method
 	ExtentReports reports = ExtentReporterNG.getReporterObject(); // we have to bring this report object from extentReport code
 	ExtentTest test;
+	ThreadLocal local= new ThreadLocal(); //object to make test Thread Local
 	
     @Override //  OnTestStarts we are setting entry of test in reports 
     public void onTestStart(ITestResult result) { //result holds all information about method
     	test=reports.createTest(result.getMethod().getMethodName()); //TestEntry created. we use result to get method and methodName
+    	local.set(test); //unique thread id captured and saved it in map
     }
 
     @Override

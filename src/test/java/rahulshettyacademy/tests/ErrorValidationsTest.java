@@ -1,13 +1,17 @@
 package rahulshettyacademy.tests;
 import java.io.IOException;
 import org.testng.Assert;
+import org.testng.IRetryAnalyzer;
 import org.testng.annotations.Test;
+
+import com.sun.net.httpserver.Authenticator.Retry;
+
 import rahulshetyacademy.TestComponents.BaseTest;
 
 public class ErrorValidationsTest extends BaseTest{
 
 		
-		@Test(groups= {"ErrorHangling"})
+		@Test(groups= {"ErrorHangling"}, retryAnalyzer= rahulshetyacademy.TestComponents.Retry.class) 
 		public void loginErrorValidation() throws InterruptedException, IOException {
 			
 			
