@@ -18,25 +18,28 @@ import rahulshettyacademy.resources.ExtentReporterNG;
 public class Listeners extends BaseTest implements ITestListener { //extending to BaseTest because it contains Screenshot method
 	ExtentReports reports = ExtentReporterNG.getReporterObject(); // we have to bring this report object from extentReport code
 	ExtentTest test;
-	ThreadLocal local= new ThreadLocal(); //object to make test Thread Local
+	ThreadLocal<ExtentTest> local= new ThreadLocal<ExtentTest>(); //object to make test Thread Local
 	
     @Override //  OnTestStarts we are setting entry of test in reports 
     public void onTestStart(ITestResult result) { //result holds all information about method
     	test=reports.createTest(result.getMethod().getMethodName()); //TestEntry created. we use result to get method and methodName
-    	local.set(test); //unique thread id captured and saved it in map
+    	local.set(test); //unique thread id assigned captured and saved it in map. now test-->local.get()
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-    	test.log(Status.PASS,"Test Pass");
+    //test.log(Status.PASS,"Test Pass");  
+    	local.get().log(Status.PASS,"Test Pass");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         // Method to execute when a test method fails
+    //test.log(Status.FAIL,"Test Fail");
     	test.log(Status.FAIL,"Test Fail");
-    	test.fail(result.getThrowable()); //we are failing you because you reach this block and get the error message
-
+    //test.fail(result.getThrowable());
+    	local.get().fail(result.getThrowable());//we are failing you because you reach this block and get the error message
+// local.get() ---->test
     	 try { // this code is to activate the driver, result has all the details of test hence we can extract driver from it.
     	        driver = (WebDriver) result.getTestClass().getRealClass().getField("driver").get(result.getInstance());
     	    } catch (Exception e) {
@@ -53,7 +56,8 @@ public class Listeners extends BaseTest implements ITestListener { //extending t
 			e.printStackTrace();
 		}
     			try {
-					test.addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
+					//test.addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
+    				local.get().addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -62,7 +62,7 @@ public String getScreenshot(String testcaseName) throws IOException {
 	return System.getProperty("user.dir")+"//reports//"+ testcaseName+".png";
 	}
 
-@BeforeMethod(alwaysRun=true) //alwaysRun--> run for every group (else it will get skip) 
+@BeforeMethod(alwaysRun=true) //alwaysRun--> run for every group (else it will get skip as its not the part of group) 
 	public LandingPage launchApplication() throws IOException {
 		driver=initializeDriver();
 		landingPage = new LandingPage(driver);
